@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:id="@+id/g1"
+    android:checkableBehavior="single">
+    <item
+        android:id="@+id/me"
+        android:title="个人中心"
+        android:icon="@drawable/person"/>
+    <item
+        android:id="@+id/mycollect"
+        android:title="我的收藏"
+        android:icon="@drawable/collect"/>
+
+    <item
+        android:id="@+id/more"
+        android:title="我的……"
+        android:icon="@drawable/more"/>
+    <item
+        android:id="@+id/live"
+        android:title="直播间"
+        android:icon="@drawable/live"/>
+</group>
+    <group android:id="@+id/g2">
+    <item
+            android:id="@+id/setting"
+            android:title="设置"
+            android:icon="@drawable/setting"/>
+        <item
+            android:id="@+id/call"
+            android:title="联系我们"
+            android:icon="@drawable/call"/>
+    </group>
+</menu>
