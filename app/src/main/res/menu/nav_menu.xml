@@ -17,7 +17,7 @@
         android:icon="@drawable/more"/>
     <item
         android:id="@+id/live"
-        android:title="直播间"
+        android:title="夜间模式"
         android:icon="@drawable/live"/>
 </group>
     <group android:id="@+id/g2">

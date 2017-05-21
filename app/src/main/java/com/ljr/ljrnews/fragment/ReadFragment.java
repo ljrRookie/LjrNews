@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.ljr.ljrnews.R;
 import com.ljr.ljrnews.base.BaseFragment;
+import com.ljr.ljrnews.utils.Util;
 
 /**
  * Created by LinJiaRong on 2017/5/15.
