@@ -94,12 +94,11 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
              mNewsAuther.setText(newsBean.author_name);
              mNewsTime.setText(newsBean.date);
-             mCollect.setImageResource(R.drawable.favourite_press);
+
              mCollect.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     mCollect.setImageResource(R.drawable.favourite_normal);
-
+                     mCollect.setImageResource(R.drawable.favourite_press);
                      Util.toast("已收藏！！",false);
                  }
              });

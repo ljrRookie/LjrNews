@@ -26,8 +26,8 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:layout_weight="1"
-
-            android:src="@drawable/collect"/>
+android:background="@drawable/splash"
+           />
 
         <ImageView
             android:id="@+id/img2"
@@ -37,8 +37,7 @@
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_weight="1"
-
-            android:src="@drawable/splash"/>
+            android:background="@drawable/splash"/>
 
         <ImageView
             android:id="@+id/img3"
@@ -46,7 +45,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:layout_weight="1"
-            android:src="@drawable/guide3"/>
+            android:background="@drawable/splash"/>
     </LinearLayout>
 
     <RelativeLayout

@@ -153,6 +153,7 @@ public class NewsAdapter extends RecyclerView.Adapter{
             mRecyclerAdapter.setOnClickRecyclerView(new RecyclerAdapter.OnClickRecyclerView() {
                 @Override
                 public void onClick(int positon) {
+
                     Util.toast("已收藏！",false);
                 }
             });
