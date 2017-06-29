@@ -123,11 +123,7 @@ public class HotFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
                 getBeanFromNet();
                 Log.e(TAG, "run: 刷新完成!");
             }

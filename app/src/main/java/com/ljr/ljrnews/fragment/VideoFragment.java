@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.ljr.ljrnews.R;
 import com.ljr.ljrnews.adapter.MovieAdapter;
 import com.ljr.ljrnews.base.BaseFragment;
 import com.ljr.ljrnews.bean.MovieBean;
+import com.ljr.ljrnews.utils.CacheUtils;
+import com.ljr.ljrnews.utils.Util;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
@@ -43,18 +46,40 @@ public class VideoFragment extends BaseFragment {
     @ViewInject(R.id.movie_refresh)
     SwipeRefreshLayout mMovieRefresh;
     private boolean refresh = false;
+    private MovieAdapter mMovieAdapter;
 
     @Override
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_video, null);
         x.view().inject(this,view);
+        mMovieRefresh.setColorSchemeResources(R.color.colorAccent);
+        mMovieRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
         return view;
     }
 
     @Override
     public void initData() {
         super.initData();
-        getDataFromNet(refresh);
+        String saveResult = CacheUtils.getString(mContext, "http://api.m.mtime.cn/PageSubArea/TrailerList.api");
+        if(!TextUtils.isEmpty(saveResult)){
+            List<MovieBean.TrailersBean> trailersBeen = parseData(saveResult);
+            showData(trailersBeen);
+            LogUtil.e("从缓存中获取数据"+saveResult);
+        }else{
+            getDataFromNet(refresh);
+        }
+
+    mMovieAdapter.setOnClickMovieItem(new MovieAdapter.OnClickMovieItem() {
+        @Override
+        public void onClick(int position) {
+
+        }
+    });
     }
 
     private void getDataFromNet(boolean refresh) {
@@ -64,6 +89,9 @@ public class VideoFragment extends BaseFragment {
             public void onSuccess(String result) {
                 LogUtil.e("onSuccess: "+result);
                 if(result != null){
+                    //缓存数据
+                    CacheUtils.putString(mContext,"http://api.m.mtime.cn/PageSubArea/TrailerList.api",result);
+                    LogUtil.e("缓存数据");
                     //解析数据
                     List<MovieBean.TrailersBean> trailersBeen = parseData(result);
                     showData(trailersBeen);
@@ -91,10 +119,10 @@ public class VideoFragment extends BaseFragment {
     }
 
     private void showData(List<MovieBean.TrailersBean> trailersBeen) {
-        MovieAdapter movieAdapter = new MovieAdapter(mContext, trailersBeen);
+        mMovieAdapter = new MovieAdapter(mContext, trailersBeen);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         mMovieRecyclerview.setLayoutManager(layoutManager);
-        mMovieRecyclerview.setAdapter(movieAdapter);
+        mMovieRecyclerview.setAdapter(mMovieAdapter);
         mMovieRecyclerview.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mTextView.setVisibility(View.GONE);
@@ -108,5 +136,15 @@ public class VideoFragment extends BaseFragment {
         return trailers;
     }
 
+    private void refreshData() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getDataFromNet(refresh);
 
+            }
+        }).start();
+        mMovieRefresh.setRefreshing(false);
+        Util.toast("刷新成功！", false);
+    }
 }
